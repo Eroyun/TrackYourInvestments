@@ -14,8 +14,8 @@ function AddRowButton({ firstSheetData, setFirstSheetData }) {
   const [newEntry, setNewEntry] = useState({
     date: "",
     stock: "",
-    quantity: "",
-    price: "",
+    quantity: 0,
+    price: 0,
   });
 
   const handleChange = (e) => {

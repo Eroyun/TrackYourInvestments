@@ -22,7 +22,7 @@ const StocksTable = () => {
           className="hidden"
           onChange={(e) => {
             handleFileChange(e).then((finalData) => {
-              setFirstSheetData(finalData);
+              if (finalData.length > 0) setFirstSheetData(finalData);
             });
           }}
         />

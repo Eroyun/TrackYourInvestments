@@ -58,30 +58,29 @@ const handleExport = (firstSheetData) => {
 
 function addRow(sheetData, newRow) {
   const data = [...sheetData];
+  newRow[0] = new Date(newRow[0]).getTime() / (86400 * 1000) + 25567 + 2;
+  newRow[1] = newRow[1].trim();
+  newRow[3] = parseFloat(newRow[3]);
+  newRow[4] = parseFloat(newRow[4]);
   // Find the index where the new row should be inserted
   const index = data.findIndex((row, i) => {
     // If it's the header row, continue to the next row
     if (i === 0) return false;
 
-    const rowDate = new Date(
-      (row[0] - (25567 + 2)) * 86400 * 1000
-    ).toLocaleDateString();
+    row[1] = row[1].trim();
 
     // If the date and stock are the same, continue to the next row
-    if (rowDate === newRow[0] && row[1] === newRow[1]) {
+    if (row[0] === newRow[0] && row[1] === newRow[1]) {
       return false;
     }
     // If the date is later than the new row's date, or the date is the same but the stock is different, insert before this row
-    if (rowDate > newRow[0] || (rowDate === newRow[0] && row[1] > newRow[1])) {
+    if (row[0] > newRow[0] || (row[0] === newRow[0] && row[1] > newRow[1])) {
+      console.log(row[0], newRow[0], row[1], newRow[1]);
       return true;
     }
     // Otherwise, continue to the next row
     return false;
   });
-  newRow[0] = new Date(newRow[0]).getTime() / (86400 * 1000) + 25567 + 2;
-  newRow[1] = newRow[1].trim();
-  newRow[3] = parseInt(newRow[3]);
-  newRow[4] = parseFloat(newRow[4]);
 
   // If no index was found (i.e., the new row's date and stock are later than all existing dates and stocks), append the new row at the end
   if (index === -1) {
